@@ -1,10 +1,11 @@
+using FizzBuzz.Api.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FizzBuzz.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class FizzBuzzController : ControllerBase
+public class FizzBuzzController(IFizzBuzzService fizzBuzzService) : ControllerBase
 {
     private const int MinLimit = 1;
     private const int MaxLimit = 1000000;
@@ -29,19 +30,19 @@ public class FizzBuzzController : ControllerBase
         [FromQuery(Name = "str1")] string replacement1,
         [FromQuery(Name = "str2")] string replacement2)
     {
-        ValidateParameters(limit, divisor1, divisor2);
+        ValidateParameters(limit);
 
         var result = new string[limit];
         for (var i = 0; i < limit; i++)
         {
-            var sentence = GetResult(i + 1, divisor1, replacement1, divisor2, replacement2);
+            var sentence = fizzBuzzService.GetFizzBuzzResult(i + 1, divisor1, replacement1, divisor2, replacement2);
             result[i] = sentence;
         }
 
         return result;
     }
 
-    private static void ValidateParameters(int limit, int divisor1, int divisor2)
+    private static void ValidateParameters(int limit)
     {
         if (limit < MinLimit)
         {
@@ -52,35 +53,5 @@ public class FizzBuzzController : ControllerBase
         {
             throw new InvalidOperationException($"Impossible to proceed more than {MaxLimit} elements");
         }
-
-        if (divisor1 == 0 || divisor2 == 0)
-        {
-            throw new InvalidOperationException("Impossible to divide by 0");
-        }
-    }
-
-    private static bool IsMultipleOf(int number, int divisor) => number % divisor == 0;
-
-    private static string GetResult(
-        int number,
-        int divisor1, string sentence1,
-        int divisor2, string sentence2)
-    {
-        if (IsMultipleOf(number, divisor1))
-        {
-            if (IsMultipleOf(number, divisor2))
-            {
-                return sentence1 + sentence2;
-            }
-
-            return sentence1;
-        }
-
-        if (IsMultipleOf(number, divisor2))
-        {
-            return sentence2;
-        }
-
-        return number.ToString();
     }
 }
