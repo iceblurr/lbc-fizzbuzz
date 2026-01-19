@@ -15,26 +15,26 @@ public class FizzBuzzController : ControllerBase
     ///     - all multiples of int2 are replaced by str2,
     ///     - all multiples of int1 and int2 are replaced by str1str2.
     /// </summary>
-    /// <param name="int1"></param>
-    /// <param name="int2"></param>
+    /// <param name="divisor1"></param>
+    /// <param name="divisor2"></param>
     /// <param name="limit"></param>
-    /// <param name="str1"></param>
-    /// <param name="str2"></param>
+    /// <param name="replacement1"></param>
+    /// <param name="replacement2"></param>
     /// <returns>a list of strings</returns>
     [HttpGet(Name = "GetFizzBuzz")]
     public IEnumerable<string> GetFizzBuzz(
-        int int1,
-        int int2,
+        [FromQuery(Name = "int1")] int divisor1,
+        [FromQuery(Name = "int2")] int divisor2,
         int limit,
-        string str1,
-        string str2)
+        [FromQuery(Name = "str1")] string replacement1,
+        [FromQuery(Name = "str2")] string replacement2)
     {
-        ValidateParameters(limit, int1, int2);
+        ValidateParameters(limit, divisor1, divisor2);
 
         var result = new string[limit];
         for (var i = 0; i < limit; i++)
         {
-            var sentence = GetResult(i + 1, int1, str1, int2, str2);
+            var sentence = GetResult(i + 1, divisor1, replacement1, divisor2, replacement2);
             result[i] = sentence;
         }
 
