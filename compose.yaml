@@ -1,0 +1,7 @@
+﻿services:
+  fizzbuzz.api:
+    image: fizzbuzz.api
+    build:
+      context: .
+      dockerfile: FizzBuzz.Api/Dockerfile
+
