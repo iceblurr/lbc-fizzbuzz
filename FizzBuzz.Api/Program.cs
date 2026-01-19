@@ -1,4 +1,4 @@
-using FizzBuzz.Api.Domain;
+using FizzBuzz.Domain.Services;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

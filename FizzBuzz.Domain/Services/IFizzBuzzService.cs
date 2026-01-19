@@ -1,4 +1,4 @@
-namespace FizzBuzz.Api.Domain;
+namespace FizzBuzz.Domain.Services;
 
 public interface IFizzBuzzService
 {

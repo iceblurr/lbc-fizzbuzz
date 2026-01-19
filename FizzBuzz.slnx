@@ -4,5 +4,6 @@
     <File Path="compose.yaml" />
   </Folder>
   <Project Path="FizzBuzz.Api/FizzBuzz.Api.csproj" />
+  <Project Path="FizzBuzz.Domain/FizzBuzz.Domain.csproj" />
   <Project Path="FizzBuzz.Tests/FizzBuzz.Tests.csproj" />
 </Solution>

@@ -1,8 +1,8 @@
 using FizzBuzz.Api.Controllers;
-using FizzBuzz.Api.Domain;
+using FizzBuzz.Domain.Services;
 using NSubstitute;
 
-namespace FizzBuzz.Tests.Controllers;
+namespace FizzBuzz.Tests.Api.Controllers;
 
 public class FizzBuzzControllerTests
 {

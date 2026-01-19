@@ -1,6 +1,6 @@
-using FizzBuzz.Api.Domain;
+using FizzBuzz.Domain.Services;
 
-namespace FizzBuzz.Tests.Domain;
+namespace FizzBuzz.Tests.Domain.Services;
 
 public class FizzBuzzServiceTests
 {

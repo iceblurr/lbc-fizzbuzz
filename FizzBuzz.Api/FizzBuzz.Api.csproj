@@ -18,4 +18,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FizzBuzz.Domain\FizzBuzz.Domain.csproj"/>
+  </ItemGroup>
+
 </Project>

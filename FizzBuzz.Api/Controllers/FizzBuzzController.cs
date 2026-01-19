@@ -1,4 +1,4 @@
-using FizzBuzz.Api.Domain;
+using FizzBuzz.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FizzBuzz.Api.Controllers;
