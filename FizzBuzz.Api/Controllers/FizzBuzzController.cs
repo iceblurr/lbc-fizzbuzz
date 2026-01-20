@@ -25,14 +25,14 @@ public class FizzBuzzController(
     /// <param name="replacement2"></param>
     /// <returns>a list of strings</returns>
     [HttpGet(Name = "GetFizzBuzz")]
-    public IEnumerable<string> GetFizzBuzz(
+    public async Task<IEnumerable<string>> GetFizzBuzz(
         [FromQuery(Name = "int1")] int divisor1,
         [FromQuery(Name = "int2")] int divisor2,
         int limit,
         [FromQuery(Name = "str1")] string replacement1,
         [FromQuery(Name = "str2")] string replacement2)
     {
-        metricService.Increment(Request.QueryString.ToString());
+        await metricService.Increment(Request.QueryString.ToString());
 
         ValidateParameters(limit);
 

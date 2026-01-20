@@ -28,7 +28,7 @@ public class FizzBuzzControllerTests
     }
 
     [Fact]
-    public void GetFizzBuzz_ValidParameters_ReturnsCorrectNumberOfResults()
+    public async Task GetFizzBuzz_ValidParameters_ReturnsCorrectNumberOfResults()
     {
         // Arrange
         const int limit = 3;
@@ -42,7 +42,7 @@ public class FizzBuzzControllerTests
             .Returns("result");
 
         // Act
-        var result = _controller.GetFizzBuzz(int1, int2, limit, str1, str2).ToList();
+        var result = (await _controller.GetFizzBuzz(int1, int2, limit, str1, str2)).ToList();
 
         // Assert
         result.Should().HaveCount(limit);
@@ -52,7 +52,7 @@ public class FizzBuzzControllerTests
     }
 
     [Fact]
-    public void GetFizzBuzz_ValidParameters_IncrementsMetric()
+    public async Task GetFizzBuzz_ValidParameters_IncrementsMetric()
     {
         // Arrange
         const int limit = 3;
@@ -62,10 +62,10 @@ public class FizzBuzzControllerTests
         _controller.HttpContext.Request.QueryString = new QueryString(queryString);
 
         // Act
-        _controller.GetFizzBuzz(int1, int2, limit, str1, str2);
+        await _controller.GetFizzBuzz(int1, int2, limit, str1, str2);
 
         // Assert
-        _metricServiceMock
+        await _metricServiceMock
             .Received(1)
             .Increment(Arg.Is<string>(s => s.Contains(queryString)));
     }
@@ -73,36 +73,36 @@ public class FizzBuzzControllerTests
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-    public void GetFizzBuzz_LimitTooLow_ThrowsInvalidOperationException(int limit)
+    public async Task GetFizzBuzz_LimitTooLow_ThrowsInvalidOperationException(int limit)
     {
         // Arrange
         _controller.HttpContext.Request.QueryString = new QueryString($"?limit={limit}");
 
         // Act
-        var act = () => _controller.GetFizzBuzz(3, 5, limit, "fizz", "buzz");
+        var act = async () => await _controller.GetFizzBuzz(3, 5, limit, "fizz", "buzz");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
+        await act.Should().ThrowAsync<InvalidOperationException>()
             .WithMessage("Limit must be at least 1.");
     }
 
     [Fact]
-    public void GetFizzBuzz_LimitTooHigh_ThrowsInvalidOperationException()
+    public async Task GetFizzBuzz_LimitTooHigh_ThrowsInvalidOperationException()
     {
         // Arrange
         const int limit = 1_000_001;
         _controller.HttpContext.Request.QueryString = new QueryString($"?limit={limit}");
 
         // Act
-        var act = () => _controller.GetFizzBuzz(3, 5, limit, "fizz", "buzz");
+        var act = async () => await _controller.GetFizzBuzz(3, 5, limit, "fizz", "buzz");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
+        await act.Should().ThrowAsync<InvalidOperationException>()
             .WithMessage("Impossible to proceed more than 1000000 elements");
     }
 
     [Fact]
-    public void GetFizzBuzz_CallsServiceWithCorrectSequenceOfNumbers()
+    public async Task GetFizzBuzz_CallsServiceWithCorrectSequenceOfNumbers()
     {
         // Arrange
         const int limit = 2;
@@ -112,7 +112,7 @@ public class FizzBuzzControllerTests
         _controller.HttpContext.Request.QueryString = new QueryString(queryString);
 
         // Act
-        _controller.GetFizzBuzz(int1, int2, limit, str1, str2).ToList();
+        (await _controller.GetFizzBuzz(int1, int2, limit, str1, str2)).ToList();
 
         // Assert
         Received.InOrder(() =>
