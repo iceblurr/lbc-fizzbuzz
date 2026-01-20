@@ -37,6 +37,28 @@ git clone https://github.com/iceblurr/lbc-fizzbuzz.git
 cd lbc-fizzbuzz
 ```
 
+### Launching with Docker Compose
+
+The easiest way to run the entire solution (API + Database) is using Docker Compose.
+
+1.  **Build and Run:**
+    Execute the following command in the root directory:
+    ```bash
+    docker compose up --build
+    ```
+
+    This command will:
+    - Build the `fizzbuzz.api` image using the `FizzBuzz.Api/Dockerfile`.
+    - Start a PostgreSQL container (`postgres-db`).
+    - Initialize the database with the schema defined in `dbscripts/seed.sql`.
+    - Start the API container.
+
+2.  **Access the API:**
+    - A Scalar UI for the API will be accessible at `http://localhost:8080/scalar/v1`(typically on port 8080 or the port exposed in the Dockerfile, check logs for `Now listening on: ...`).
+
+    **Database Connection:**
+    The API is configured to talk to the `postgres-db` service within the docker network `frontend`.
+
 ### Running Locally (Development Mode)
 
 If you want to run the API via your IDE (like Rider or Visual Studio) or `dotnet run`:
@@ -44,7 +66,7 @@ If you want to run the API via your IDE (like Rider or Visual Studio) or `dotnet
 1.  **Start the Database:**
     You still need the database running. You can start just the database service:
     ```bash
-    docker compose up database -d
+    docker compose up postgres-db -d
     ```
     This exposes Postgres on port `5432` on your local machine.
 
