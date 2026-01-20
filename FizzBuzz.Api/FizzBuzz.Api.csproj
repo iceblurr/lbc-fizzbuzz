@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FizzBuzz.Domain\FizzBuzz.Domain.csproj"/>
+    <ProjectReference Include="..\FizzBuzz.Infrastructure\FizzBuzz.Infrastructure.csproj"/>
   </ItemGroup>
 
 </Project>

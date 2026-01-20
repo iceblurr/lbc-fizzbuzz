@@ -5,7 +5,9 @@ namespace FizzBuzz.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class FizzBuzzController(IFizzBuzzService fizzBuzzService) : ControllerBase
+public class FizzBuzzController(
+    IFizzBuzzService fizzBuzzService,
+    IMetricService metricService) : ControllerBase
 {
     private const int MinLimit = 1;
     private const int MaxLimit = 1000000;
@@ -30,6 +32,8 @@ public class FizzBuzzController(IFizzBuzzService fizzBuzzService) : ControllerBa
         [FromQuery(Name = "str1")] string replacement1,
         [FromQuery(Name = "str2")] string replacement2)
     {
+        metricService.Increment(Request.QueryString.ToString());
+
         ValidateParameters(limit);
 
         var result = new string[limit];

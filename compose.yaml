@@ -4,4 +4,24 @@
     build:
       context: .
       dockerfile: FizzBuzz.Api/Dockerfile
+    networks:
+      - frontend
 
+  database:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user_metrics
+      - POSTGRES_PASSWORD=lbc2026!
+      - POSTGRES_DB=metrics_db
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+      - ./dbscripts/init.sql :/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - frontend
+
+networks:
+  frontend:
+volumes:
+  database-data:
